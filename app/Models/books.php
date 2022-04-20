@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class books extends Model
+class Books extends Model
 {
 
    
@@ -21,12 +21,12 @@ class books extends Model
 
     public function comments(){
 
-      return $this->hasMany(comments::class);
+      return $this->hasMany(Comments::class);
     }
 
 
     public function category(){
 
-      return $this->belongsTo(Category::class);
+      return $this->belongsTo(Category::class, 'id_category');
     }
 }

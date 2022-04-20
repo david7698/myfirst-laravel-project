@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookStoreRequest;
-use App\Models\books;
-use App\Models\comments;
+use App\Models\Books;
+use App\Models\Category;
+use App\Models\Comments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Kris\LaravelFormBuilder\FormBuilder;
@@ -54,11 +55,10 @@ class BookController extends Controller
 
     public  function eloquent_allbooks()
     {
-        $books = books::all();
+        $books = Books::with(['category', 'comments'])->get();
+
         return view('biblioteca', [
             'books' => $books
-
-
         ]);
 
 
@@ -70,11 +70,18 @@ class BookController extends Controller
 
     public function create(FormBuilder $formBuilder)
     {
-         
-        $form = $formBuilder->create('App\Forms\BookForm', [
-            'method' => 'POST',
-            'url' => route('book.store')
-        ], [ 'is_admin' => true]);
+
+
+
+
+        $form = $formBuilder->create(
+            'App\Forms\BookForm',
+            [
+                'method' => 'POST',
+                'url' => route('book.store')
+            ]
+            //  , [ 'categories' => $category]
+        );
 
         return view('createbook', compact('form'));
     }
@@ -87,8 +94,10 @@ class BookController extends Controller
 
         //$req->validate();
 
+        $id_cat = $req->category;
 
-        $book = new books;
+
+        $book = new Books;
 
         $book->title = $req->title;
 
@@ -96,7 +105,10 @@ class BookController extends Controller
 
         $book->page_number = $req->page_number;
 
+        $book->id_category = $id_cat;
+
         $book->save();
+
 
         return redirect('biblioteca');
     }
@@ -108,7 +120,7 @@ class BookController extends Controller
 
         // books::remove()->where('id',$bookId);
 
-        $book = books::find($bookId);
+        $book = Books::find($bookId);
 
         $book->delete();
 
@@ -118,21 +130,21 @@ class BookController extends Controller
 
     public function edit(FormBuilder $formBuilder, $bookId)
     {
-        $book = books::findOrFail($bookId);
+        $book = Books::findOrFail($bookId);
 
 
         $form = $formBuilder->create('App\Forms\BookForm', [
             'method' => 'POST',
-            'url' => route('book.update',['bookId' => $bookId]),
-            'model' => $book,   
+            'url' => route('book.update', ['bookId' => $bookId]),
+            'model' => $book,
         ]);
 
         return view('modify', [
-            'form' => $form, 
-            
+            'form' => $form,
+
         ]);
 
-/*
+        /*
 
         return view('modify', [
             
@@ -145,7 +157,7 @@ class BookController extends Controller
     {
 
 
-        $book = books::find($bookId);
+        $book = Books::find($bookId);
 
         $book->title = $req->title;
 
@@ -162,8 +174,8 @@ class BookController extends Controller
     {
 
 
-        $book = books::find($bookId);
-        
+        $book = Books::find($bookId);
+
         $comments = $book->comments()->orderBy('created_at', 'desc')->get();
         return view('detailbook', [
             'book' => $book,
@@ -175,17 +187,12 @@ class BookController extends Controller
     public function comment_book(Request $req, $bookId)
     {
 
-        $comment = new comments(['comment' => $req->text]);
+        $comment = new Comments(['comment' => $req->text]);
 
-        $book = books::find($bookId);
+        $book = Books::find($bookId);
 
         $book->comments()->save($comment);
 
         return redirect('biblioteca');
     }
-
-
-    
-
-
 }

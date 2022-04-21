@@ -27,6 +27,8 @@ Route::get('/nome', function(){
 
 Route::get('/primotest', [ BookController::class, 'test']);
 
+Route::get('/file/download', [ BookController::class, 'downloadFile'])->name('file.download');
+
 Route::get('/book/create', [BookController::class, 'create'])->name('book.create');
 Route::post('/book/store', [BookController::class, 'store'])->name('book.store');
 

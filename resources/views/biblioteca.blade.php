@@ -41,6 +41,6 @@
     </table>
 
 
-
+<a class="btn btn-success" href="{{ route('file.download')  }}"> scarica file</a>
 @endsection
 

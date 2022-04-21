@@ -9,7 +9,12 @@ use App\Models\Category;
 use App\Models\Comments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Kris\LaravelFormBuilder\FormBuilder;
+
+
+
+
 
 class BookController extends Controller
 {
@@ -91,6 +96,10 @@ class BookController extends Controller
     //public function store(Request $req)
     {
 
+        
+       
+        $path = $req->file('bookImage')->store('public');
+
 
         //$req->validate();
 
@@ -106,6 +115,8 @@ class BookController extends Controller
         $book->page_number = $req->page_number;
 
         $book->id_category = $id_cat;
+
+        $book->image = $path;
 
         $book->save();
 
@@ -195,4 +206,15 @@ class BookController extends Controller
 
         return redirect('biblioteca');
     }
+
+    public function downloadFile(){
+
+
+        return Storage::download('public/example.txt');
+
+    }
+
+    
+
+
 }

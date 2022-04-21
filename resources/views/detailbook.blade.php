@@ -5,7 +5,9 @@
 
 @section('content')
 
-<img src="https://www.astracom.it/wp-content/uploads/2018/02/realizzazione-copertina-libro-600x500.jpg" alt="" style="width:250px;">
+<img src="{{Storage::url($book['image']) ;}}" alt="" style="width:250px;"><br/>
+{{Storage::disk('local')->url($book['image']) ;}}<br/>
+{{Storage::disk('public')->url($book['image']) ;}}<br/>
 
 <div class="row">
 

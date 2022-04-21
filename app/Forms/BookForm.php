@@ -19,7 +19,8 @@ class BookForm extends Form
             ->add('category', 'select', [
                 'choices' => $category->pluck('name','id')->toArray(),
                 'empty_value' => '=== Select category ==='
-            ]);
+            ])
+            ->add('bookImage', 'file');
 
 
           /*  foreach ($this->getData('categories') as $data) {
@@ -30,7 +31,7 @@ class BookForm extends Form
                 ]);
     
                 
-            } */
+            }  */
 
 
         if ($this->getData('is_admin') == true) {

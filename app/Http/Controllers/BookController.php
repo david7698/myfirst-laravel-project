@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookStoreRequest;
+use App\Imports\BooksImport;
+use App\Imports\ExelFileImport;
+use App\Imports\IncomeProtectionImport;
 use App\Models\Books;
 use App\Models\Category;
 use App\Models\Comments;
@@ -11,10 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Kris\LaravelFormBuilder\FormBuilder;
-
-
-
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
 {
@@ -214,7 +214,33 @@ class BookController extends Controller
 
     }
 
-    
+
+
+    public function saveFile(Request $req){
+
+        $path = $req->file('exelFile')->store('exelfiles');
+
+        //Excel::import(new BooksImport, $path);
+        Excel::import(new ExelFileImport, $path);
+        
+        return redirect('biblioteca')->with('success', 'All good!');
+
+    }
+
+    public function importFileExel(FormBuilder $formBuilder)
+    {
+
+        $form = $formBuilder->create(
+            'App\Forms\ExelForm',
+            [
+                'method' => 'POST',
+                'url' => route('book.fileImport')
+            ]
+            //  , [ 'categories' => $category]
+        );
+
+        return view('importExelFile', compact('form'));
+    }
 
 
 }

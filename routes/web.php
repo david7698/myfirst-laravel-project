@@ -31,6 +31,9 @@ Route::get('/file/download', [ BookController::class, 'downloadFile'])->name('fi
 
 Route::get('/book/create', [BookController::class, 'create'])->name('book.create');
 Route::post('/book/store', [BookController::class, 'store'])->name('book.store');
+Route::get('/book/exelImport', [BookController::class, 'import'])->name('book.exelImport');
+Route::post('/book/FileImport', [BookController::class, 'saveFile'])->name('book.fileImport');
+Route::get('/book/exelImportFile', [BookController::class, 'importFileExel'])->name('book.exelImportFile');
 
 Route::get('/book/edit/{bookId}', [ BookController::class, 'edit'])->name('book.edit');
 Route::post('/book/update/{bookId}', [BookController::class, 'update'])->name('book.update');
@@ -41,7 +44,7 @@ Route::post('/book/comment/{bookId}', [ BookController::class, 'comment_book'])-
 Route::get('/biblioteca', [ BookController::class ,'eloquent_allbooks'])->name('book.allbooks');
 
 
-
+Route::get('/send-mail', [BookController::class, 'sendEmail'])->name('mail.send');
 
 
 

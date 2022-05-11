@@ -8,25 +8,35 @@ use Illuminate\Database\Eloquent\Model;
 class Books extends Model
 {
 
-   
+  protected $fillable = [
 
-    protected $table = 'book';
+    "title",
+    "description",
+    "page_number",
+    "id_category",
+    "image",
 
-    protected $attributes = [
-    
-        'page_number' => 10,
-        'description' => 'aaaaaaaaaaaaaaaaaaa'
-    ];
+  ];
+
+  protected $table = 'book';
+
+  protected $attributes = [
+
+    'page_number' => 10,
+    'description' => 'aaaaaaaaaaaaaaaaaaa'
+  ];
 
 
-    public function comments(){
+  public function comments()
+  {
 
-      return $this->hasMany(Comments::class);
-    }
+    return $this->hasMany(Comments::class);
+  }
 
 
-    public function category(){
+  public function category()
+  {
 
-      return $this->belongsTo(Category::class, 'id_category');
-    }
+    return $this->belongsTo(Category::class, 'id_category');
+  }
 }

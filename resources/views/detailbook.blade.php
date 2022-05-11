@@ -5,9 +5,7 @@
 
 @section('content')
 
-<img src="{{Storage::url($book['image']) ;}}" alt="" style="width:250px;"><br/>
-{{Storage::disk('local')->url($book['image']) ;}}<br/>
-{{Storage::disk('public')->url($book['image']) ;}}<br/>
+<img src="{{Storage::url($book['image']) ;}}" alt="" style="width:250px;">
 
 <div class="row">
 

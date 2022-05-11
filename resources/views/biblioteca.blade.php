@@ -7,6 +7,7 @@
 @section('content')
 
 <a class="btn btn-dark" href="{{ route('book.create') }}" >crea libro</a>
+<a class="btn btn-success" href="{{ route('book.exelImportFile') }}" >importa file exel</a>
 
 <table class="table">
   <thead>
@@ -41,6 +42,7 @@
     </table>
 
 
-<a class="btn btn-success" href="{{ route('file.download')  }}"> scarica file</a>
+<a class="btn btn-light" href="{{ route('file.download')  }}"> scarica file</a>
+<a class="btn btn-success" href="{{ route('book.exelImport')  }}"> importa exel </a>
 @endsection
 

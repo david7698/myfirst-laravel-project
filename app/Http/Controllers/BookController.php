@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Events\NewBookAdded;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookStoreRequest;
 use App\Imports\BooksImport;
@@ -100,7 +102,6 @@ class BookController extends Controller
        
         $path = $req->file('bookImage')->store('public');
 
-
         //$req->validate();
 
         $id_cat = $req->category;
@@ -120,6 +121,7 @@ class BookController extends Controller
 
         $book->save();
 
+        event(new NewBookAdded($book));
 
         return redirect('biblioteca');
     }
